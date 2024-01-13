@@ -53,11 +53,39 @@ const login = async (request, response, next) => {
     );
     if (passwordIsCorrect) {
       const user = { ...user_record };
+      const {
+        id,
+        firstName,
+        lastName,
+        email,
+        timeZone,
+        role,
+        activated,
+        deactivationDate,
+        active,
+        language,
+        companyOwner,
+        created_on,
+      } = user._doc;
 
       const authToken = await generateAuthToken({ ...user_record });
+
       return response.status(200).json({
         status: "success",
-        content: { ...user._doc },
+        content: {
+          id,
+          firstName,
+          lastName,
+          email,
+          timeZone,
+          role,
+          activated,
+          deactivationDate,
+          active,
+          language,
+          companyOwner,
+          created_on,
+        },
         token: authToken,
       });
     }
