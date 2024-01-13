@@ -17,7 +17,7 @@ const setup_request = (request, response, next) => {
 };
 
 router.use(setup_request);
-router.use("/api/v1/admin", admin_route_handler);
+router.use("/api/v1/users", admin_route_handler);
 router.use("/api/v1/schedule", schedule_route_handler);
 router.use("/", getHomepage);
 
