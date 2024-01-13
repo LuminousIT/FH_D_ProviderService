@@ -67,8 +67,9 @@ const login = async (request, response, next) => {
         companyOwner,
         created_on,
       } = user._doc;
+      const tokenPayload = { id, email, firstName, lastName };
 
-      const authToken = await generateAuthToken({ ...user_record });
+      const authToken = await generateAuthToken({ ...tokenPayload });
 
       return response.status(200).json({
         status: "success",
@@ -109,25 +110,4 @@ const getAdmins = async (request, response, next) => {
   }
 };
 
-const getRFID = async (request, response, next) => {
-  try {
-    const body = request.body;
-    console.log({ body });
-    return response.status(200).json({ status: "success", content: body });
-  } catch (error) {
-    console.log(error.message);
-    return response.status(500).json({ status: "failed", msg: error.message });
-  }
-};
-
-const getHomepage = async (request, response, next) => {
-  try {
-    return response
-      .status(200)
-      .json({ status: "success", content: "Hello, World!" });
-  } catch (error) {
-    console.log(error.message);
-    return response.status(500).json({ status: "failed", msg: error.message });
-  }
-};
-module.exports = { registerAdmin, login, getAdmins, getRFID, getHomepage };
+module.exports = { registerAdmin, login, getAdmins };

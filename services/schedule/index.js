@@ -1,6 +1,7 @@
 const uuid = require("uuid");
 const ScheduleDB = require("../../model/schedule");
 const AdminDB = require("../../model/admin");
+const jwt = require("jsonwebtoken");
 
 const createSchedule = async (request, response, next) => {
   try {
@@ -47,7 +48,13 @@ const updateSchedule = async (request, response, next) => {
 
 const getSchedules = async (request, response, next) => {
   try {
-    const schedules = await ScheduleDB.find({}).exec();
+    const { token } = request;
+    // decode token and get id from token
+    const verified_token = await jwt.verify(token, process.env.SECRET);
+
+    const { id } = verified_token;
+    const schedules = await ScheduleDB.find({ userID: id }).exec();
+
     if (!schedules) throw new Error("Schedule does not exist");
     return response.status(200).json({ status: "success", content: schedules });
   } catch (error) {
