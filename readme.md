@@ -9,3 +9,5 @@
   - SECRET=
 - Contact project owner for his secret and db_url to run local test
 - To start server, run ```npm run start```
+- To Build server, run ```npm run build```
+- 
