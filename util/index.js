@@ -19,4 +19,14 @@ module.exports = {
   checkIfPasswordMatch: async (original_password, encrypted_password) => {
     return await bcrypt.compare(original_password, encrypted_password);
   },
+
+  decryptJwtAuthToken: async (token) => {
+    try {
+      const verified_token = await jwt.verify(token, process.env.SECRET);
+      return { ...verified_token };
+    } catch (error) {
+      console.log("error decryptJwtAuthToken", error.message);
+      throw new Error(error);
+    }
+  },
 };

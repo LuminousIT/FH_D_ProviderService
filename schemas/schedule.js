@@ -8,5 +8,5 @@ module.exports.ScheduleSchema = Joi.object({
   shiftEnd: Joi.string().required(),
   task: Joi.string().required(),
   scheduleID: Joi.string(),
-  userID: Joi.string().required(),
+  userID: Joi.string().trim(),
 });

@@ -2,6 +2,7 @@ const router = require("express").Router();
 // const { getHomepage } = require("../services/admin");
 const admin_route_handler = require("./admin/index");
 const schedule_route_handler = require("./schedule/index");
+const user_route_handler = require("./admin/user");
 
 const setup_request = (request, response, next) => {
   request.headers["access-control-allow-origin"] = "*";
@@ -30,7 +31,9 @@ const check_request_for_token = (request, response, next) => {
 };
 
 router.use(setup_request);
+
 router.use("/api/v1/users", admin_route_handler);
+router.use("/api/v1/user/", check_request_for_token, user_route_handler);
 router.use("/api/v1/schedule", check_request_for_token, schedule_route_handler);
 
 module.exports = router;

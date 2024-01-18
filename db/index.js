@@ -1,8 +1,12 @@
 const mongoose = require("mongoose");
 
-const connectDB = (url) => {
+const connectDB = async (url) => {
   console.log({ url });
-  return mongoose.connect(url, { useNewUrlParser: true });
+  const response = await mongoose.connect(url, {
+    useNewUrlParser: true,
+    serverSelectionTimeoutMS: 10000,
+  });
+  return response;
 };
 
 module.exports = connectDB;

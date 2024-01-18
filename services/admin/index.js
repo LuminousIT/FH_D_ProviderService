@@ -5,6 +5,7 @@ const {
   encryptPassword,
   checkIfPasswordMatch,
   generateAuthToken,
+  decryptJwtAuthToken,
 } = require("../../util");
 
 const registerAdmin = async (request, response, next) => {
@@ -26,8 +27,10 @@ const registerAdmin = async (request, response, next) => {
       id: uid,
       password: encryptedPassword,
     });
-    await created_record.save();
+    const res = await created_record.save();
     if (!created_record) throw new Error("User creation failed");
+
+    delete created_record.password;
 
     return response
       .status(201)
@@ -101,7 +104,10 @@ const login = async (request, response, next) => {
 
 const getAdmins = async (request, response, next) => {
   try {
-    const users = await AdminDB.find({}).exec();
+    const { token } = request;
+    const userInfo = await decryptJwtAuthToken(token);
+
+    const users = await AdminDB.find({ id: userInfo.id }).exec();
     if (!users) throw new Error("User does not exist");
     return response.status(200).json({ status: "success", content: users });
   } catch (error) {
@@ -110,4 +116,18 @@ const getAdmins = async (request, response, next) => {
   }
 };
 
-module.exports = { registerAdmin, login, getAdmins };
+const getUser = async (request, response, next) => {
+  try {
+    const { token } = request;
+    const userInfo = await decryptJwtAuthToken(token);
+
+    const users = await AdminDB.find({ id: userInfo.id }).exec();
+    if (!users) throw new Error("User does not exist");
+    return response.status(200).json({ status: "success", content: users });
+  } catch (error) {
+    console.log(error.message);
+    return response.status(500).json({ status: "failed", msg: error.message });
+  }
+};
+
+module.exports = { registerAdmin, login, getAdmins, getUser };
