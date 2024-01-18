@@ -2,21 +2,26 @@ const uuid = require("uuid");
 const ScheduleDB = require("../../model/schedule");
 const AdminDB = require("../../model/admin");
 const jwt = require("jsonwebtoken");
+const { decryptJwtAuthToken } = require("../../util");
 
 const createSchedule = async (request, response, next) => {
   try {
+    const { token } = request;
     const { shiftStart, shiftEnd, userID, id, task } = request.body;
-    if (!userID) throw new Error("User Id is required");
+    const userInfo = await decryptJwtAuthToken(token);
 
-    // check if user exist for booking
-    const user = await AdminDB.findOne({ id: userID }).exec();
-    if (!user) throw new Error("user does not exist");
+    // check if user exist
+    if (userID) {
+      const user = await AdminDB.findOne({ id: userID }).exec();
+      if (!user) throw new Error("User does not exist.");
+    }
+
+    const { id: verifiedUserId } = userInfo;
     const schedule_id = uuid.v4();
-
     const created = new ScheduleDB({
       id: schedule_id,
-      userID,
-      workerID: userID,
+      userID: verifiedUserId,
+      workerID: verifiedUserId,
       shiftStart,
       shiftEnd,
       scheduleID: schedule_id,
@@ -34,8 +39,15 @@ const createSchedule = async (request, response, next) => {
 const updateSchedule = async (request, response, next) => {
   try {
     const { shiftStart, shiftEnd, userID, id, task } = request.body;
+    const param = request.params.id;
+
+    if (!param) throw new Error("Schedule id missing from param");
+
+    const existingSchedule = await ScheduleDB.findOne({ id: param }).exec();
+    if (!existingSchedule) throw new Error("Schedule does not exist.");
+
     const updated = await ScheduleDB.updateOne(
-      { id },
+      { id: param },
       { $set: { ...request.body } }
     );
     if (!updated) throw new Error("Schedule Update failed");
@@ -53,6 +65,7 @@ const getSchedules = async (request, response, next) => {
     const verified_token = await jwt.verify(token, process.env.SECRET);
 
     const { id } = verified_token;
+
     const schedules = await ScheduleDB.find({ userID: id }).exec();
 
     if (!schedules) throw new Error("Schedule does not exist");
