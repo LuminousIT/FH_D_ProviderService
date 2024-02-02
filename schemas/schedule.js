@@ -9,4 +9,6 @@ module.exports.ScheduleSchema = Joi.object({
   task: Joi.string().required(),
   scheduleID: Joi.string(),
   userID: Joi.string().trim(),
+  status: Joi.number(),
+  description: Joi.string(),
 });

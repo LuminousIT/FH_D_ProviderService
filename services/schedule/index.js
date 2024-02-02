@@ -7,7 +7,8 @@ const { decryptJwtAuthToken } = require("../../util");
 const createSchedule = async (request, response, next) => {
   try {
     const { token } = request;
-    const { shiftStart, shiftEnd, userID, id, task } = request.body;
+    const { shiftStart, shiftEnd, userID, id, task, status, description } =
+      request.body;
     const userInfo = await decryptJwtAuthToken(token);
 
     // check if user exist
@@ -26,6 +27,8 @@ const createSchedule = async (request, response, next) => {
       shiftEnd,
       scheduleID: schedule_id,
       task,
+      status,
+      description,
     });
     await created.save();
     if (!created) throw new Error("Schedule Creation Failed");
