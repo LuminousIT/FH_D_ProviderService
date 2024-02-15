@@ -3,12 +3,15 @@ const ScheduleDB = require("../../model/schedule");
 const AdminDB = require("../../model/admin");
 const jwt = require("jsonwebtoken");
 const { decryptJwtAuthToken } = require("../../util");
+const { ScheduleSchema } = require("../../schemas/schedule");
 
 const createSchedule = async (request, response, next) => {
   try {
     const { token } = request;
     const { shiftStart, shiftEnd, userID, id, task, status, description } =
       request.body;
+    const { error } = ScheduleSchema.validate(request.body);
+    if (error) throw new Error(error.message);
     const userInfo = await decryptJwtAuthToken(token);
 
     // check if user exist
@@ -35,13 +38,14 @@ const createSchedule = async (request, response, next) => {
     return response.status(200).json({ status: "success", content: created });
   } catch (error) {
     console.log(error.message);
-    return response.status(500).json({ status: "failed", msg: error.message });
+    return response.status(401).json({ status: "failed", msg: error.message });
   }
 };
 
 const updateSchedule = async (request, response, next) => {
   try {
-    const { shiftStart, shiftEnd, userID, id, task } = request.body;
+    const { error } = ScheduleSchema.validate(request.body);
+    if (error) throw new Error(error.message);
     const param = request.params.id;
 
     if (!param) throw new Error("Schedule id missing from param");
@@ -57,7 +61,7 @@ const updateSchedule = async (request, response, next) => {
     return response.status(200).json({ status: "success", content: updated });
   } catch (error) {
     console.log(error.message);
-    return response.status(500).json({ status: "failed", msg: error.message });
+    return response.status(400).json({ status: "failed", msg: error.message });
   }
 };
 
@@ -75,7 +79,7 @@ const getSchedules = async (request, response, next) => {
     return response.status(200).json({ status: "success", content: schedules });
   } catch (error) {
     console.log(error.message);
-    return response.status(500).json({ status: "failed", msg: error.message });
+    return response.status(401).json({ status: "failed", msg: error.message });
   }
 };
 

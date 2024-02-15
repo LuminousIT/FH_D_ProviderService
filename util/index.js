@@ -11,7 +11,7 @@ module.exports = {
 
   generateAuthToken: async (data) => {
     const SECRET = process.env.SECRET;
-    const expiresIn = 21600000;
+    const expiresIn = 86400;
     const token = await jwt.sign({ ...data }, SECRET, { expiresIn });
     return token;
   },
