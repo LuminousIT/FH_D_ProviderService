@@ -4,6 +4,7 @@ const AdminDB = require("../../model/admin");
 const jwt = require("jsonwebtoken");
 const { decryptJwtAuthToken } = require("../../util");
 const { ScheduleSchema } = require("../../schemas/schedule");
+const vehicleLocationRouter = require("../services/schedule/VehicleLocation");
 
 const createSchedule = async (request, response, next) => {
   try {
