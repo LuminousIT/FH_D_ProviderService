@@ -22,6 +22,7 @@ const AdminSchema = new Schema({
   password: {
     type: String,
     required: true,
+    select: false,
   },
   timeZone: {
     type: String,

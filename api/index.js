@@ -3,6 +3,10 @@ const router = require("express").Router();
 const admin_route_handler = require("./admin/index");
 const schedule_route_handler = require("./schedule/index");
 const user_route_handler = require("./admin/user");
+const tags_route_handler = require("./tags/index");
+const activities_route_handler = require("./activity/index");
+const projects_route_handler = require("./project/index");
+const vehicleLocation_route_handler = require("./vehicleLocation/index");
 
 const setup_request = (request, response, next) => {
   request.headers["access-control-allow-origin"] = "*";
@@ -35,5 +39,17 @@ router.use(setup_request);
 router.use("/api/v1/users", admin_route_handler);
 router.use("/api/v1/user/", check_request_for_token, user_route_handler);
 router.use("/api/v1/schedule", check_request_for_token, schedule_route_handler);
+router.use("/api/v1/tags", check_request_for_token, tags_route_handler);
+router.use(
+  "/api/v1/activity",
+  check_request_for_token,
+  activities_route_handler
+);
+router.use("/api/v1/projects", check_request_for_token, projects_route_handler);
+router.use(
+  "/api/v1/vehicleLocation",
+  check_request_for_token,
+  vehicleLocation_route_handler
+);
 
 module.exports = router;

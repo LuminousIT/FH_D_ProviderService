@@ -29,6 +29,14 @@ const ScheduleSchema = new Schema({
     type: String,
     required: true,
   },
+  description: {
+    type: String,
+    // required: true,
+  },
+  status: {
+    type: Number,
+    // required: true,
+  },
   scheduleID: {
     type: String,
     required: true,

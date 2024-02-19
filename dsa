@@ -1,0 +1,50 @@
+[33mcommit 8b472e463641611f5c7f555d8e6719986ed4f50a[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 15ca761 9584bb2
+Author: Oluwole Samuel Olumide <Oluwoleit@gmail.com>
+Date:   Thu Jan 18 13:57:27 2024 +0100
+
+    Merge pull request #1 from LuminousIT/dev
+    
+    Dev
+
+[33mcommit 9584bb2e1e860a7b7fa18fed4ee32da1773aff23[m[33m ([m[1;31morigin/dev[m[33m)[m
+Author: Olumide Oluwole <oluwoleit@gmail.com>
+Date:   Thu Jan 18 13:55:53 2024 +0100
+
+    api fixes
+
+[33mcommit d18b7f16b56073d4506b0350a5b76362526d63c0[m
+Author: Olumide Oluwole <oluwoleit@gmail.com>
+Date:   Wed Jan 17 16:55:37 2024 +0100
+
+    packagejson update
+
+[33mcommit 15ca7619e7964ebf7f3b929d4965c0cea0e36f9b[m
+Author: Olumide Oluwole <oluwoleit@gmail.com>
+Date:   Wed Jan 17 07:32:00 2024 +0100
+
+    env removed
+
+[33mcommit ceceae1c91188f1887d81d0883acceec77b7fdd3[m
+Author: Olumide Oluwole <oluwoleit@gmail.com>
+Date:   Sat Jan 13 21:07:07 2024 +0100
+
+    add token auth
+
+[33mcommit 5f0a90116bbcce32495ec2c8671e19e050d9ad59[m
+Author: Olumide Oluwole <oluwoleit@gmail.com>
+Date:   Sat Jan 13 16:11:26 2024 +0100
+
+    readme update
+
+[33mcommit 888b7bef67b14a9677ed34b8199b7bc7a763cb3d[m
+Author: Olumide Oluwole <oluwoleit@gmail.com>
+Date:   Sat Jan 13 15:27:36 2024 +0100
+
+    get schedule
+
+[33mcommit ae154c86c52750703153ad814450517573f56918[m
+Author: Olumide Oluwole <oluwoleit@gmail.com>
+Date:   Sat Jan 13 15:04:32 2024 +0100
+
+    initial commit

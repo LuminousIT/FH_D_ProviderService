@@ -30,14 +30,13 @@ const registerAdmin = async (request, response, next) => {
     const res = await created_record.save();
     if (!created_record) throw new Error("User creation failed");
 
-    delete created_record.password;
+    const created = { ...created_record._doc };
+    delete created["password"];
 
-    return response
-      .status(201)
-      .json({ status: "success", content: created_record });
+    return response.status(201).json({ status: "success", content: created });
   } catch (error) {
     console.log(error.message);
-    return response.status(500).json({ status: "failed", msg: error.message });
+    return response.status(400).json({ status: "failed", msg: error.message });
   }
 };
 
@@ -109,10 +108,12 @@ const getAdmins = async (request, response, next) => {
 
     const users = await AdminDB.find({ id: userInfo.id }).exec();
     if (!users) throw new Error("User does not exist");
+    delete users["password"];
+    console.log("users", users);
     return response.status(200).json({ status: "success", content: users });
   } catch (error) {
     console.log(error.message);
-    return response.status(500).json({ status: "failed", msg: error.message });
+    return response.status(401).json({ status: "failed", msg: error.message });
   }
 };
 
