@@ -6,6 +6,7 @@ const user_route_handler = require("./admin/user");
 const tags_route_handler = require("./tags/index");
 const activities_route_handler = require("./activity/index");
 const projects_route_handler = require("./project/index");
+const vehicleLocation_route_handler = require("./vehicleLocation/index");
 
 const setup_request = (request, response, next) => {
   request.headers["access-control-allow-origin"] = "*";
@@ -45,5 +46,10 @@ router.use(
   activities_route_handler
 );
 router.use("/api/v1/projects", check_request_for_token, projects_route_handler);
+router.use(
+  "/api/v1/vehicleLocation",
+  check_request_for_token,
+  vehicleLocation_route_handler
+);
 
 module.exports = router;
