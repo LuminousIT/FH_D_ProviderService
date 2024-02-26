@@ -99,10 +99,47 @@ const getSchedulesByID = async (request, response, next) => {
   }
 };
 
+const deleteSchedulesByID = async (request, response, next) => {
+  try {
+    const { id } = request.params;
+    if (!id) throw new Error("Schedule id missing from param");
+
+    const schedule_record = await ScheduleDB.deleteOne({ id }).exec();
+    console.log(schedule_record);
+    if (!schedule_record) throw new Error("Schedule does not exist");
+    return response
+      .status(200)
+      .json({ status: "success", content: schedule_record });
+  } catch (error) {
+    console.log(error.message);
+    return response.status(500).json({ status: "failed", msg: error.message });
+  }
+};
+
+const deleteSchedules = async (request, response, next) => {
+  try {
+    const { ids } = request.body;
+    if (!ids) throw new Error("Schedule id missing from param");
+    if (!Array.isArray(ids)) throw new Error("ids must be an array");
+    const schedule_record = await ScheduleDB.deleteMany({
+      id: { $in: ids },
+    }).exec();
+    console.log(schedule_record);
+    if (!schedule_record) throw new Error("Schedules does not exist");
+    return response
+      .status(200)
+      .json({ status: "success", content: schedule_record });
+  } catch (error) {
+    console.log(error.message);
+    return response.status(500).json({ status: "failed", msg: error.message });
+  }
+};
 module.exports = {
   createSchedule,
   getSchedules,
   createSchedule,
   updateSchedule,
   getSchedulesByID,
+  deleteSchedulesByID,
+  deleteSchedules,
 };
