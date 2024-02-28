@@ -10,5 +10,6 @@ module.exports.ScheduleSchema = Joi.object({
   scheduleID: Joi.string(),
   userID: Joi.string().trim(),
   status: Joi.number(),
+  notes: Joi.string(),
   description: Joi.string(),
 });

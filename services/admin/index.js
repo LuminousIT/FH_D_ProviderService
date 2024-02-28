@@ -43,10 +43,13 @@ const registerAdmin = async (request, response, next) => {
 const login = async (request, response, next) => {
   try {
     const { email, password } = request.body;
+
     const { error } = LogInSchema.validate(request.body);
     if (error) throw new Error(error);
 
-    const user_record = await AdminDB.findOne({ email }).exec();
+    const user_record = await AdminDB.findOne({ email })
+      .select("+password")
+      .exec();
     if (!user_record) throw new Error("User does not exist");
 
     const passwordIsCorrect = await checkIfPasswordMatch(
@@ -55,6 +58,7 @@ const login = async (request, response, next) => {
     );
     if (passwordIsCorrect) {
       const user = { ...user_record };
+
       const {
         id,
         firstName,

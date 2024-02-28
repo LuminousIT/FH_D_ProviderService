@@ -35,6 +35,12 @@ const ScheduleSchema = new Schema({
   },
   status: {
     type: Number,
+    default: 1,
+    // required: true,
+  },
+  notes: {
+    type: String,
+    default: "",
     // required: true,
   },
   scheduleID: {
